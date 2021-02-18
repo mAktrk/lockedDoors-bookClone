@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - altin
+  - anahtar
+  - anahtarVar
   layers:
   - Default
   - TransparentFX

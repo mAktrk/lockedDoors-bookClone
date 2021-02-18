@@ -14,7 +14,9 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private GameObject anahtaVar;
 
     [SerializeField] private float hiz;
-    private bool sagaBak;
+    [SerializeField]private bool sagaBak;
+
+    [SerializeField]private bool atak;
 
     void Start()
     {
@@ -23,21 +25,50 @@ public class PlayerScript : MonoBehaviour
         sagaBak = true;
     }
 
-    
-    void Update()
+    private void FixedUpdate()
     {
         float yatay = Input.GetAxisRaw("Horizontal");
         KarakterHaraket(yatay);
         YonCevir(yatay);
+        AtakHareketleri();
+        DegeriResetle();
+    }
 
+    void Update()
+    {
+        Kontroller();
     }
 
     private void KarakterHaraket(float yatay)
     {
-        rb.velocity = new Vector2(yatay * hiz, rb.velocity.y);
+        if (!this.animator.GetCurrentAnimatorStateInfo(0).IsTag("atak"))
+        {
+            rb.velocity = new Vector2(yatay * hiz, rb.velocity.y);
+            
+        }
         animator.SetFloat("karakterHizi", Mathf.Abs(yatay));
     }
+    private void Kontroller()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            atak = true;
+        }
+    }
 
+    private void AtakHareketleri()
+    {
+      
+            if (atak && !this.animator.GetCurrentAnimatorStateInfo(0).IsTag("atak"))
+            {
+                animator.SetTrigger("atak");
+                rb.velocity = Vector2.zero;
+            }
+
+        
+    }
+
+   
     private void YonCevir(float yatay)
     {
         if (yatay > 0 && !sagaBak || yatay < 0 && sagaBak)
@@ -69,4 +100,9 @@ public class PlayerScript : MonoBehaviour
     {
         toplamSkor.text = "SKOR:"+skor;
     }
+    private void DegeriResetle()
+    {
+        atak = false;
+    }
+
 }
