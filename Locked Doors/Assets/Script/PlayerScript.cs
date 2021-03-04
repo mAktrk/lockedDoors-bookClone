@@ -8,6 +8,8 @@ public class PlayerScript : MonoBehaviour
 
 
     private Rigidbody2D rb;
+
+
     private Animator animator;
     private int skor = 0;
     public Text toplamSkor;
@@ -25,6 +27,12 @@ public class PlayerScript : MonoBehaviour
         sagaBak = true;
     }
 
+    void Update()
+    {
+        Kontroller();
+    }
+
+
     private void FixedUpdate()
     {
         float yatay = Input.GetAxisRaw("Horizontal");
@@ -34,11 +42,7 @@ public class PlayerScript : MonoBehaviour
         DegeriResetle();
     }
 
-    void Update()
-    {
-        Kontroller();
-    }
-
+   
     private void KarakterHaraket(float yatay)
     {
         if (!this.animator.GetCurrentAnimatorStateInfo(0).IsTag("atak"))
@@ -48,13 +52,7 @@ public class PlayerScript : MonoBehaviour
         }
         animator.SetFloat("karakterHizi", Mathf.Abs(yatay));
     }
-    private void Kontroller()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            atak = true;
-        }
-    }
+    
 
     private void AtakHareketleri()
     {
@@ -68,7 +66,15 @@ public class PlayerScript : MonoBehaviour
         
     }
 
-   
+    private void Kontroller()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            atak = true;
+        }
+    }
+
+
     private void YonCevir(float yatay)
     {
         if (yatay > 0 && !sagaBak || yatay < 0 && sagaBak)
